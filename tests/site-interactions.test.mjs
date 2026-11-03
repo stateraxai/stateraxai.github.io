@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
 const source = readFileSync(new URL('../src/scripts/site.js', import.meta.url), 'utf8');
-const quote = '面对不可预测的世界，构建一种自我稳定的能力。';
+const quote = '面对不可预测的世界，构建一种自我稳定的能力...';
 
 function boot({ instant = '2026-11-03T12:00:00Z', reduced = false, blockStorage = false, aboutPage = false, visitorZone = 'Asia/Shanghai' } = {}) {
   let now = new Date(instant).getTime();
