@@ -39,7 +39,7 @@ function boot({ instant = '2026-11-03T12:00:00Z', reduced = false, blockStorage 
   let nextId = 0;
   const motion = { matches: reduced, addEventListener(_, callback) { this.listener = callback; } };
   runInNewContext(source, {
-    document: { documentElement: root, hidden: false, getElementById: id => elements[id], querySelector: () => meta, addEventListener() {}, createElement: () => element(), createDocumentFragment: () => element(), createTextNode(text) { const node = element(); node.textContent = text; return node; } },
+    document: { documentElement: root, hidden: false, getElementById: id => elements[id], querySelector: () => meta, querySelectorAll: () => [], addEventListener() {}, createElement: () => element(), createDocumentFragment: () => element(), createTextNode(text) { const node = element(); node.textContent = text; return node; } },
     localStorage: { setItem(key, value) { if (blockStorage) throw Error('blocked'); saved.set(key, value); } },
     Date: Clock, Intl: { DateTimeFormat: function(locale, options) { return new Intl.DateTimeFormat(locale, { timeZone: visitorZone, ...options }); } }, matchMedia: () => motion,
     setTimeout(callback) { timers.set(++nextId, callback); return nextId; },

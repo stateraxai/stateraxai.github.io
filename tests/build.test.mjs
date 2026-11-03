@@ -50,6 +50,8 @@ test('all three blogs generate isolated lists and details while production exclu
       if (filename.endsWith('.html')) {
         const html = await readFile(new URL(`../dist/${filename}`, import.meta.url), 'utf8');
         assert.doesNotMatch(html, /DRAFT-MUST-NOT-LEAK|fixture-draft-/);
+        assert.match(html, /id="wechat-header-open"/);
+        assert.equal((html.match(/id="wechat-dialog"/g) || []).length, 1, 'each page must have exactly one shared QR dialog');
       }
     }
     await checkLinks(fileURLToPath(new URL('../dist/', import.meta.url)));

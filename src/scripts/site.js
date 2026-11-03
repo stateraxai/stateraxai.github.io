@@ -43,20 +43,23 @@
   setInterval(updateDate, 60000);
   document.addEventListener('visibilitychange', () => { if (!document.hidden) updateDate(); });
 
-  const wechatOpen = document.getElementById('wechat-open');
+  const wechatOpeners = [...document.querySelectorAll('[data-wechat-open]')];
+  let activeWechatOpener;
   const wechatDialog = document.getElementById('wechat-dialog');
   const wechatClose = document.getElementById('wechat-close');
-  if (wechatOpen && wechatDialog && wechatClose) {
-    wechatOpen.addEventListener('click', () => {
+  if (wechatOpeners.length && wechatDialog && wechatClose) {
+    wechatOpeners.forEach(opener => opener.addEventListener('click', () => {
+      activeWechatOpener = opener;
       if (wechatDialog.open) return;
       wechatDialog.showModal();
-      wechatOpen.setAttribute('aria-expanded', 'true');
+      wechatOpeners.forEach(button => button.setAttribute('aria-expanded', 'true'));
       root.classList.add('qr-modal-open');
-    });
+    }));
     wechatClose.addEventListener('click', () => wechatDialog.close());
     wechatDialog.addEventListener('close', () => {
-      wechatOpen.setAttribute('aria-expanded', 'false');
+      wechatOpeners.forEach(button => button.setAttribute('aria-expanded', 'false'));
       root.classList.remove('qr-modal-open');
+      activeWechatOpener?.focus();
     });
     wechatDialog.addEventListener('click', event => {
       if (event.target !== wechatDialog) return;

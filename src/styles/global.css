@@ -250,3 +250,7 @@ html[data-theme="dark"] .astro-code, html[data-theme="dark"] .astro-code span { 
   .prose, .article-description { font-size: 16px; }
   .prose pre { font-size: 12px; padding: 14px; }
 }
+
+@media (max-width: 360px) {
+  .header-actions .icon-button { width: 36px; padding-inline: 7px; }
+}

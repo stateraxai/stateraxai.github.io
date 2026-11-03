@@ -77,6 +77,7 @@ npm run preview
 - `src/content/articles/`：Markdown 文章。
 - `src/content.config.ts`、`src/lib/article-schema.ts`：内容加载与字段校验。
 - `src/layouts/`、`src/components/`：共享页面结构、页头、导航与页脚。
+- `src/components/WechatDialog.astro`：全站共享公众号弹窗，右上角关注图标与关于页按钮均可打开。
 - `src/styles/global.css`：现有设计与文章排版。
 - `src/scripts/site.js`：主题、当地日期、像素逐字效果与二维码弹窗。
 - `public/logo.svg`、`public/assets/wechat-qr.svg`：已确认公开的原有图片。

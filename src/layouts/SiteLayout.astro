@@ -2,6 +2,7 @@
 import Header from '../components/Header.astro';
 import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
+import WechatDialog from '../components/WechatDialog.astro';
 import '../styles/global.css';
 import type { BlogCategory } from '../lib/articles';
 interface Props { title: string; description: string; active?: 'home' | BlogCategory | 'about'; }
@@ -27,6 +28,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <Navigation active={active} />
     <main id="main" class="wrap"><slot /></main>
     <Footer />
+    <WechatDialog />
     <slot name="afterMain" />
     <script src="../scripts/site.js"></script>
   </body>
