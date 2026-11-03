@@ -1,0 +1,34 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import ArticleList from '../components/ArticleList.astro';
+import { getCollection } from 'astro:content';
+import { selectArticles, BLOG_CATEGORIES } from '../lib/articles';
+const articles = selectArticles(await getCollection('articles'), import.meta.env.DEV);
+---
+<SiteLayout title="随机幂等 · 无限" description="随机幂等。Harrison，DevOps，云原生，云计算运维工程师。SRE，FDE，AIOps 进阶中。" active="home">
+
+    <section class="hero" aria-labelledby="hero-title">
+      <h1 id="hero-title" aria-label="面对不可预测的世界，构建一种自我稳定的能力。"><span class="quote-reserve" aria-hidden="true">面对不可预测的世界，<br>构建一种<wbr>自我稳定的能力。</span><span class="quote-live" id="typewriter" aria-hidden="true">面对不可预测的世界，<br>构建一种<wbr>自我稳定的能力。</span></h1>
+      <div class="hero-bottom">
+        <div class="hero-copy" id="about"><p>我是 Harrison，DevOps，云原生，云计算运维工程师。<br>SRE，FDE，AIOps 进阶中。</p><a class="button" href="#directory">看看这里 <span aria-hidden="true">↓</span></a></div>
+        <div class="hero-aside"><span class="utility" lang="en">STOCHIDEM</span><p>在这里，<br>慢慢积累。</p></div>
+      </div>
+    </section>
+    <section class="directory" id="directory" aria-labelledby="directory-title">
+      <div class="section-topline"><h2 id="directory-title">内容目录</h2><span class="utility" lang="en">A WORK IN PROGRESS</span></div>
+      <div class="categories">
+        {BLOG_CATEGORIES.map(category => (
+          <Fragment>
+            <section class="category" id={category.id === 'tech' ? 'articles' : category.id} aria-labelledby={`${category.id}-title`}>
+              <div class="category-heading"><h3 id={`${category.id}-title`}>{category.label}</h3><span class="utility" lang="en">{category.english}</span></div>
+              <ArticleList articles={articles.filter(article => article.data.category === category.id).slice(0, 3)} label={category.label} compact />
+              <a class="all-articles" href={`/${category.id}/`}>全部{category.label} <span aria-hidden="true">↗</span></a>
+            </section>
+            {category.id === 'tech' && (
+        <section class="category" id="projects" aria-labelledby="projects-title"><div class="category-heading"><h3 id="projects-title">项目</h3><span class="utility" lang="en">Projects</span></div><div class="empty-state"><span class="empty-mark" aria-hidden="true">↳</span><p>内容整理中</p><p class="empty-detail">尚未发布项目。</p></div></section>
+            )}
+          </Fragment>
+        ))}
+      </div>
+    </section>
+</SiteLayout>

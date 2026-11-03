@@ -1,0 +1,35 @@
+---
+import Header from '../components/Header.astro';
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
+import WechatDialog from '../components/WechatDialog.astro';
+import '../styles/global.css';
+import type { BlogCategory } from '../lib/articles';
+interface Props { title: string; description: string; active?: 'home' | BlogCategory | 'about'; }
+const { title, description, active } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#121413" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/logo.svg" type="image/svg+xml" />
+    <script is:inline>try { const theme = localStorage.getItem('stochidem-theme'); if (theme === 'dark' || theme === 'light') document.documentElement.dataset.theme = theme; } catch { /* 默认深色模式仍可使用。 */ }</script>
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main">跳到正文</a>
+    <Header />
+    <Navigation active={active} />
+    <main id="main" class="wrap"><slot /></main>
+    <Footer />
+    <WechatDialog />
+    <slot name="afterMain" />
+    <script src="../scripts/site.js"></script>
+  </body>
+</html>

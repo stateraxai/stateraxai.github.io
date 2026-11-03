@@ -1,0 +1,22 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { articleHref, formatArticleDate } from '../lib/articles';
+interface Props { articles: CollectionEntry<'articles'>[]; compact?: boolean; label?: string; }
+const { articles, compact = false, label = '文章' } = Astro.props;
+---
+{articles.length ? (
+  <ul class:list={['article-list', { compact }]}>
+    {articles.map(article => (
+      <li>
+        <a href={articleHref(article.id, article.data.category)}>
+          <div class="article-meta"><time datetime={article.data.date}>{formatArticleDate(article.data.date)}</time>{article.data.draft && <span class="draft-badge">草稿，仅本地预览</span>}</div>
+          <h3>{article.data.title}</h3>
+          <p>{article.data.description}</p>
+          {!compact && article.data.tags.length > 0 && <div class="article-tags">{article.data.tags.map(tag => <span>{tag}</span>)}</div>}
+        </a>
+      </li>
+    ))}
+  </ul>
+) : (
+  <div class="empty-state"><span class="empty-mark" aria-hidden="true">↳</span><p>内容整理中</p><p class="empty-detail">尚未发布{label}文章。</p></div>
+)}
