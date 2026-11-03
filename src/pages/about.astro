@@ -1,0 +1,34 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+---
+<SiteLayout title="关于随机幂等 · 随机幂等" description="随机幂等的起源、关注方向与公众号联系方式。" active="about">
+
+    <header class="about-page-header">
+      <p class="eyebrow">ABOUT · 关于</p>
+    </header>
+    <article class="about-article" aria-label="随机幂等的起源与联系方式">
+      <section class="about-section" id="origin" aria-labelledby="origin-title">
+        <h1 class="origin-title" id="origin-title">起源</h1>
+        <p>我们出生在一个什么样的家庭，生命里会遇到哪些人，度过怎样的一生？好像一切都没有定数，处处都是“随机”。</p>
+        <p>我们对上岸、内卷、鸡娃的狂热，好像就是在抵抗“随机”，寻求“幂等”。可这便是最终的答案吗？</p>
+        <p>于是我问 AI：“你觉得什么是人生的幂等？”</p>
+        <blockquote class="origin-quote"><p>面对不可预测的世界，构建一种能够自我恢复、自我稳定的能力。</p></blockquote>
+      </section>
+      <section class="about-section" id="focus" aria-labelledby="focus-title">
+        <h2 id="focus-title">关注方向</h2>
+        <p class="focus-directions"><span class="focus-group">DevOps<span class="focus-separator" aria-hidden="true">·</span>云原生</span><span class="focus-separator focus-divider" aria-hidden="true">·</span><span class="focus-group">SRE<span class="focus-separator" aria-hidden="true">·</span>FDE<span class="focus-separator" aria-hidden="true">·</span>AIOps</span></p>
+      </section>
+      <section class="about-section" id="contact" aria-labelledby="contact-title">
+        <h2 id="contact-title">联系方式</h2>
+        <div class="wechat-contact">
+          <button class="wechat-trigger" id="wechat-open" type="button" aria-haspopup="dialog" aria-controls="wechat-dialog" aria-expanded="false">公众号：<strong>随机幂等</strong></button>
+          <noscript><a href="/assets/wechat-qr.svg">查看公众号二维码</a></noscript>
+        </div>
+      </section>
+    </article>
+<Fragment slot="afterMain">  <dialog class="wechat-dialog" id="wechat-dialog" aria-labelledby="wechat-dialog-title">
+    <button class="dialog-close icon-button" id="wechat-close" type="button" aria-label="关闭公众号二维码" autofocus><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="m6 6 12 12M6 18 18 6"/></svg></button>
+    <h2 id="wechat-dialog-title">随机幂等</h2>
+    <figure class="qr-figure"><a href="/assets/wechat-qr.svg" aria-label="打开随机幂等公众号二维码原图"><img src="/assets/wechat-qr.svg" width="430" height="430" alt="随机幂等微信公众号二维码"></a><figcaption>微信公众号<br>点击二维码可查看原图</figcaption></figure>
+  </dialog></Fragment>
+</SiteLayout>

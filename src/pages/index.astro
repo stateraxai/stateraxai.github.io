@@ -1,0 +1,25 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import ArticleList from '../components/ArticleList.astro';
+import { getCollection } from 'astro:content';
+import { selectArticles } from '../lib/articles';
+const articles = selectArticles(await getCollection('articles'), import.meta.env.DEV);
+---
+<SiteLayout title="随机幂等 · 无限" description="随机幂等。Harrison，DevOps，云原生，云计算运维工程师。SRE，FDE，AIOps 进阶中。" active="home">
+
+    <section class="hero" aria-labelledby="hero-title">
+      <h1 id="hero-title" aria-label="面对不可预测的世界，构建一种自我稳定的能力。"><span class="quote-reserve" aria-hidden="true">面对不可预测的世界，<br>构建一种<wbr>自我稳定的能力。</span><span class="quote-live" id="typewriter" aria-hidden="true">面对不可预测的世界，<br>构建一种<wbr>自我稳定的能力。</span></h1>
+      <div class="hero-bottom">
+        <div class="hero-copy" id="about"><p>我是 Harrison，DevOps，云原生，云计算运维工程师。<br>SRE，FDE，AIOps 进阶中。</p><a class="button" href="#directory">看看这里 <span aria-hidden="true">↓</span></a></div>
+        <div class="hero-aside"><span class="utility" lang="en">STOCHIDEM</span><p>在这里，<br>慢慢积累。</p></div>
+      </div>
+    </section>
+    <section class="directory" id="directory" aria-labelledby="directory-title">
+      <div class="section-topline"><h2 id="directory-title">内容目录</h2><span class="utility" lang="en">A WORK IN PROGRESS</span></div>
+      <div class="categories">
+        <section class="category" id="articles" aria-labelledby="articles-title"><div class="category-heading"><h3 id="articles-title">文章</h3><span class="utility" lang="en">Writing</span></div><ArticleList articles={articles.slice(0, 3)} compact /><a class="all-articles" href="/articles/">全部文章 <span aria-hidden="true">↗</span></a></section>
+        <section class="category" id="projects" aria-labelledby="projects-title"><div class="category-heading"><h3 id="projects-title">项目</h3><span class="utility" lang="en">Projects</span></div><div class="empty-state"><span class="empty-mark" aria-hidden="true">↳</span><p>内容整理中</p><p class="empty-detail">尚未发布项目。</p></div></section>
+        <section class="category" id="notes" aria-labelledby="notes-title"><div class="category-heading"><h3 id="notes-title">随想</h3><span class="utility" lang="en">Notes</span></div><div class="empty-state"><span class="empty-mark" aria-hidden="true">↳</span><p>内容整理中</p><p class="empty-detail">尚未发布随想。</p></div></section>
+      </div>
+    </section>
+</SiteLayout>

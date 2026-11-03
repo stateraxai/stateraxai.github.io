@@ -115,7 +115,7 @@
   }
 
   const fragment = document.createDocumentFragment();
-    characters.forEach((character, position) => {
+    characters.forEach(character => {
       if (character === '\n' || character === '\u200b') {
         fragment.append(document.createTextNode(character));
         return;

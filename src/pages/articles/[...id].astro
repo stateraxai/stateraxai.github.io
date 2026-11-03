@@ -1,0 +1,27 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import { selectArticles, formatArticleDate } from '../../lib/articles';
+
+export async function getStaticPaths() {
+  const articles = selectArticles(await getCollection('articles'), import.meta.env.DEV);
+  return articles.map(article => ({ params: { id: article.id }, props: { article } }));
+}
+interface Props { article: CollectionEntry<'articles'>; }
+const { article } = Astro.props;
+const { Content } = await render(article);
+---
+<SiteLayout title={`${article.data.title} · 随机幂等`} description={article.data.description} active="articles">
+  <article class="writing-page article-page">
+    <a class="article-back" href="/articles/">← 返回文章</a>
+    <header class="article-header">
+      <div class="article-meta"><time datetime={article.data.date}>{formatArticleDate(article.data.date)}</time>{article.data.draft && <span class="draft-badge">草稿，仅本地预览</span>}</div>
+      <h1 class="writing-title">{article.data.title}</h1>
+      <p class="article-description">{article.data.description}</p>
+      {article.data.tags.length > 0 && <div class="article-tags">{article.data.tags.map(tag => <span>{tag}</span>)}</div>}
+      {article.data.cover && <img class="article-cover" src={article.data.cover} alt={article.data.coverAlt} />}
+    </header>
+    <div class="prose"><Content /></div>
+    <a class="article-back article-end" href="/articles/">← 返回文章列表</a>
+  </article>
+</SiteLayout>
