@@ -1,43 +1,38 @@
-# 随机幂等
+# 随机幂等 · STATERAX
 
+Harrison 的个人网站。DevOps、云原生、云计算运维工程师，SRE、FDE、AIOps 进阶中。
 
-无限的个人网站。行走中的 SRE，爬行中的 FDE。
+- 首页：https://stateraxai.github.io/
+- 关于：https://stateraxai.github.io/about/
 
+使用 GitHub Pages 免费方案和默认 github.io 地址。仓库为 Public，源文件和提交历史公开。
 
-原生 HTML 和 CSS 静态页面，无需安装依赖。项目、作品、文章、兴趣四个分类暂显示“内容整理中”。
+## 文件与更新
 
+- `index.html`：首页简介、文章/项目/随想目录及导航。
+- `about/index.html`：起源、关注方向、公众号二维码入口。
+- `styles.css`：排版、明暗主题、手机布局和像素动画样式。
+- `app.js`：访问者当地日期和星期、主题记忆、像素字形逐字显现、二维码弹窗。
+- `logo.svg`：网站 Logo 与标签页图标。
+- `assets/wechat-qr.svg`：公众号二维码原图。
+- `.nojekyll`：直接发布静态文件。
 
-## 免费发布到 GitHub Pages
+在 GitHub 打开对应文件，点击铅笔按钮编辑；文字与链接均确认可公开后，点击 **Commit changes**，提交到 `main`。GitHub Pages 会自动重新部署，在仓库 **Actions** 查看结果。更新后检查正式网址的手机与桌面显示。
 
-
-1. 登录 GitHub，确认当前账号是 `stateraxai`。
-2. 新建仓库 `stateraxai.github.io`，可见性选择 **Public**。GitHub Free 的 Pages 要求公开仓库，上传的源文件和提交历史也会公开。
-3. 若同名仓库已经存在，先检查其中内容，不要覆盖现有网站。
-4. 选择 **Add file → Upload files**，将本目录中的 `index.html`、`styles.css`、`favicon.svg`、`.nojekyll` 和 `README.md` 上传至仓库根目录。不要上传外层 `personal-site` 文件夹或 ZIP 文件。`.nojekyll` 是隐藏文件，可通过 **Add file → Create new file** 单独创建。
-5. 提交到 `main`，进入 **Settings → Pages**。
-6. 在 **Build and deployment → Source** 选择 **Deploy from a branch**；分支选择 **main**，目录选择 **/(root)**，点击 **Save**。
-7. 等待 Pages 部署成功，在此页面点击 **Visit site**。预计地址为 `https://stateraxai.github.io/`，部署前不能视为已经上线。发布可能需要约 10 分钟。
-8. 使用手机和电脑打开网址，检查页面、四个分类导航和 GitHub 链接。
-
-
-只使用 GitHub 免费方案和默认 `github.io` 地址，不需要购买域名。
-
-
-## 后续更新
-
-
-- 修改名字、简介和内容：在仓库中打开 `index.html`，点击铅笔按钮编辑，提交到 `main` 后会自动重新部署。
-- 添加项目或文章：找到对应分类的 `<p class="empty-state">…</p>`，替换为实际内容，例如 `<p><a href="https://example.com/">文章标题</a></p>`（示例地址需替换，不要直接发布）。保留分类的 `id`，导航才会继续有效。
-- 调整颜色、间距、手机布局：编辑 `styles.css`。
-- 添加图片：先上传到仓库的 `assets/` 目录，再用 `./assets/文件名` 引用；确认图片和文字均可公开。
-- 查看发布进度：仓库的 **Actions** 页面；查看正式地址：**Settings → Pages → Visit site**。
-
+修改首页标题时，同时更新 `aria-label` 与备用文字，保持可访问性和无脚本显示一致。添加内容时保留 `articles`、`projects`、`notes` 等导航目标的 `id`。关于页位于子目录，公共资源采用 `../styles.css`、`../app.js` 等相对路径。
 
 ## 本地预览
 
+在仓库根目录运行：
 
-在本目录运行 `python3 -m http.server 4173 --bind 127.0.0.1`，浏览器打开 `http://127.0.0.1:4173/`。
+```sh
+python3 -m http.server 4173 --bind 127.0.0.1
+```
 
+打开 http://127.0.0.1:4173/ 和 http://127.0.0.1:4173/about/。
 
-官方文档：https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site
+## 发布配置与回退
 
+仓库 **Settings → Pages**：Source 为 **Deploy from a branch**，Branch 为 **main**，目录为 **/(root)**。默认域名使用 HTTPS，无需购买域名或开通付费方案。
+
+需要回退时，对目标发布提交执行 `git revert <提交编号>` 并推送到 `main`；这会保留提交历史并自动重新部署。避免强制推送覆盖历史。
