@@ -1,0 +1,19 @@
+---
+import { getCollection } from 'astro:content';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import ArticleList from '../../components/ArticleList.astro';
+import { selectArticles, BLOG_CATEGORIES } from '../../lib/articles';
+export function getStaticPaths() {
+  return BLOG_CATEGORIES.map(category => ({ params: { category: category.id }, props: { category } }));
+}
+interface Props { category: typeof BLOG_CATEGORIES[number]; }
+const { category } = Astro.props;
+const articles = selectArticles(await getCollection('articles'), import.meta.env.DEV, category.id);
+---
+<SiteLayout title={`${category.label} · 随机幂等`} description={`随机幂等的${category.label}文章。`} active={category.id}>
+  <section class="writing-page" aria-labelledby="writing-title">
+    <p class="eyebrow">{category.english.toUpperCase()} · {category.label}</p>
+    <h1 class="writing-title" id="writing-title">{category.label}</h1>
+    <ArticleList articles={articles} label={category.label} />
+  </section>
+</SiteLayout>

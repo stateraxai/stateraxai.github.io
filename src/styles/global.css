@@ -73,7 +73,7 @@ h1 { position: relative; font-family: var(--display); font-weight: 600; font-siz
 .section-topline { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 22px 0; }
 .section-topline h2 { margin: 0; font-family: var(--display); font-size: 16px; font-weight: 600; letter-spacing: .12em; }
 .section-topline > span { color: var(--quiet); font-size: 10px; }
-.categories { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-bottom: 1px solid var(--line); padding-bottom: 28px; }
+.categories { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-bottom: 1px solid var(--line); padding-bottom: 28px; }
 .category { min-width: 0; padding: 0 26px; border-left: 1px solid var(--line); }
 .category:first-child { padding-left: 0; border-left: 0; }
 .category:last-child { padding-right: 0; }
@@ -135,7 +135,7 @@ h1 { position: relative; font-family: var(--display); font-weight: 600; font-siz
   .masthead { min-height: 112px; }
   .brand > span { font-size: 28px; }
   .main-nav { gap: 34px; }
-  .categories { grid-template-columns: repeat(3,minmax(0,1fr)); padding-bottom: 0; }
+  .categories { grid-template-columns: repeat(2,minmax(0,1fr)); padding-bottom: 0; }
   .category { padding: 22px 24px; border-top: 1px solid var(--line); }
   .category:nth-child(odd) { border-left: 0; padding-left: 0; }
   .category:nth-child(even) { padding-right: 0; }

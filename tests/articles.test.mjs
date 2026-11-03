@@ -15,5 +15,14 @@ test('article calendar date stays on its original day', () => {
   assert.equal(formatArticleDate('2026-01-01'), '2026年1月1日');
 });
 test('article paths encode each segment and retain trailing slash', () => {
-  assert.equal(articleHref('cloud/hello world'), '/articles/cloud/hello%20world/');
+  assert.equal(articleHref('cloud/hello world', 'tech'), '/tech/cloud/hello%20world/');
+});
+
+test('category isolates blogs while keeping drafts private', () => {
+  const rows = ['tech', 'science', 'notes'].map(category => ({ id: category, data: { category, date: '2026-11-04', draft: false } }));
+  rows.push({ id: 'hidden', data: { category: 'notes', date: '2026-11-05', draft: true } });
+  assert.deepEqual(selectArticles(rows, false, 'notes').map(x => x.id), ['notes']);
+  assert.deepEqual(selectArticles(rows, true, 'notes').map(x => x.id), ['hidden', 'notes']);
+  assert.equal(articleHref('my-post', 'science'), '/science/my-post/');
+  assert.equal(articleHref('my-post', 'notes'), '/notes/my-post/');
 });

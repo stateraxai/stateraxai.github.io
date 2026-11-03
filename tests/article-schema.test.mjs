@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { articleSchema } from '../src/lib/article-schema.ts';
-const fields = { title: '标题', description: '摘要', date: '2026-11-03' };
+const fields = { title: '标题', description: '摘要', date: '2026-11-03', category: 'tech' };
 
 test('article defaults to draft and accepts quoted or YAML calendar dates', () => {
   assert.equal(articleSchema.parse(fields).draft, true);
@@ -20,4 +20,10 @@ test('invalid dates and incomplete metadata fail before publishing', () => {
 test('cover requires a public images path and meaningful alternate text', () => {
   assert.equal(articleSchema.safeParse({ ...fields, cover: '/images/cover.png' }).success, false);
   assert.equal(articleSchema.safeParse({ ...fields, cover: '/images/cover.png', coverAlt: '示意图' }).success, true);
+});
+
+test('category is required and restricted to the three blog sections', () => {
+  for (const category of ['tech', 'science', 'notes']) assert.equal(articleSchema.parse({ ...fields, category }).category, category);
+  assert.equal(articleSchema.safeParse({ ...fields, category: undefined }).success, false);
+  assert.equal(articleSchema.safeParse({ ...fields, category: 'projects' }).success, false);
 });

@@ -12,6 +12,7 @@ export const articleSchema = z.object({
   title: z.string().trim().min(1),
   description: z.string().trim().min(1),
   date: calendarDate,
+  category: z.enum(['tech', 'science', 'notes']),
   draft: z.boolean().default(true),
   tags: z.array(z.string().trim().min(1)).default([]),
   cover: z.string().startsWith('/images/').optional(),
