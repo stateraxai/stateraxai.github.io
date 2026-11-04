@@ -1,0 +1,38 @@
+---
+// 添加歌曲时，将文件放入 public/music，并在这里追加标题与路径。
+const tracks = [
+  { title: '矢野立美 · LOVE Theme from TIGA', src: '/music/love-theme-from-tiga.m4a' },
+  { title: '矢野立美 · 愛のテーマ', src: '/music/ai-no-theme.m4a' },
+  { title: '矢野立美 · その名は“ウルトラマンティガ”', src: '/music/sono-na-wa-ultraman-tiga.m4a' },
+];
+---
+<div transition:persist="background-music" transition:animate="none" class="music-player" role="group" aria-label="背景音乐播放器" data-tracks={JSON.stringify(tracks)}>
+  <span class="music-title"><span class="music-title-text" title={tracks[0].title}>{tracks[0].title}</span></span>
+  <button class="music-control music-previous" type="button" aria-label="上一首" title="上一首" disabled>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5v14M18 5 8 12l10 7Z" /></svg>
+  </button>
+  <button class="music-control music-play" type="button" aria-label="播放音乐" title="播放音乐" aria-pressed="false" data-playing="false">
+    <svg class="music-start" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7Z" /></svg>
+    <svg class="music-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14" /></svg>
+  </button>
+  <button class="music-control music-next" type="button" aria-label="下一首" title="下一首" disabled>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 5v14M6 5l10 7-10 7Z" /></svg>
+  </button>
+  <audio preload="none" aria-label="背景音乐"></audio>
+  <span class="music-status" role="status" aria-live="polite"></span>
+</div>
+<script>
+  import { initMusicPlayer, retainSongScroll } from '../scripts/music-player.js';
+  retainSongScroll(document);
+  const player = document.querySelector<HTMLElement>('.music-player');
+  if (player) {
+    initMusicPlayer({
+      audio: player.querySelector('audio')!,
+      play: player.querySelector('.music-play')!,
+      previous: player.querySelector('.music-previous')!,
+      next: player.querySelector('.music-next')!,
+      title: player.querySelector('.music-title-text')!,
+      status: player.querySelector('.music-status')!,
+    }, JSON.parse(player.dataset.tracks!));
+  }
+</script>

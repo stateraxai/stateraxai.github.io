@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from 'astro:transitions';
 import Header from '../components/Header.astro';
 import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
@@ -12,6 +13,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 <!doctype html>
 <html lang="zh-CN" data-theme="dark">
   <head>
+    <ClientRouter fallback="swap" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
@@ -22,7 +24,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <link rel="icon" href="/logo.svg" type="image/svg+xml" />
     <script is:inline>try { const theme = localStorage.getItem('stochidem-theme'); if (theme === 'dark' || theme === 'light') document.documentElement.dataset.theme = theme; } catch { /* 默认深色模式仍可使用。 */ }</script>
   </head>
-  <body id="top">
+  <body id="top" transition:animate="none">
     <a class="skip-link" href="#main">跳到正文</a>
     <Header />
     <Navigation active={active} />

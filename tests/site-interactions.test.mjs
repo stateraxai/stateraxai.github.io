@@ -35,19 +35,27 @@ function boot({ instant = '2026-11-03T12:00:00Z', reduced = false, blockStorage 
   const meta = element();
   const timers = new Map();
   const intervals = [];
+  const documentListeners = {};
   const saved = new Map();
   let nextId = 0;
   const motion = { matches: reduced, addEventListener(_, callback) { this.listener = callback; } };
   runInNewContext(source, {
-    document: { documentElement: root, hidden: false, getElementById: id => elements[id], querySelector: () => meta, querySelectorAll: () => [], addEventListener() {}, createElement: () => element(), createDocumentFragment: () => element(), createTextNode(text) { const node = element(); node.textContent = text; return node; } },
+    document: { documentElement: root, hidden: false, getElementById: id => elements[id], querySelector: () => meta, querySelectorAll: () => [], addEventListener(name, callback) { documentListeners[name] = callback; }, removeEventListener(name) { delete documentListeners[name]; }, createElement: () => element(), createDocumentFragment: () => element(), createTextNode(text) { const node = element(); node.textContent = text; return node; } },
     localStorage: { setItem(key, value) { if (blockStorage) throw Error('blocked'); saved.set(key, value); } },
     Date: Clock, Intl: { DateTimeFormat: function(locale, options) { return new Intl.DateTimeFormat(locale, { timeZone: visitorZone, ...options }); } }, matchMedia: () => motion,
     setTimeout(callback) { timers.set(++nextId, callback); return nextId; },
     clearTimeout(id) { timers.delete(id); },
-    setInterval(callback) { intervals.push(callback); },
+    setInterval(callback) { intervals.push(callback); return callback; },
+    clearInterval(callback) { const i = intervals.indexOf(callback); if (i >= 0) intervals.splice(i, 1); },
   });
   function step() { const [id, callback] = timers.entries().next().value; timers.delete(id); callback(); }
   return { root, elements, meta, timers, intervals, motion, saved, step,
+    navigateToAbout() {
+      documentListeners['astro:before-swap']?.({ newDocument: { documentElement: root } });
+      for (const id of ['theme-toggle', 'current-date', 'current-weekday']) elements[id] = element();
+      delete elements['hero-title']; delete elements.typewriter;
+      documentListeners['astro:page-load']?.();
+    },
     setTime(value) { now = new Date(value).getTime(); },
     finish() { let limit = 100; while (timers.size && limit-- > 0) step(); assert.ok(limit > 0, 'typing must finish'); },
   };
@@ -144,4 +152,19 @@ test('the about page keeps date and theme controls without a homepage title', ()
   assert.equal(page.timers.size, 0);
   page.elements['theme-toggle'].listeners.click();
   assert.equal(page.root.dataset.theme, 'light');
+});
+
+
+test('client navigation rebinds controls and cleans up previous page timers', () => {
+  const page = boot();
+  assert.equal(page.intervals.length, 1);
+  page.navigateToAbout();
+  assert.equal(page.timers.size, 0, 'departed homepage typing must stop');
+  assert.equal(page.intervals.length, 1, 'only one date updater may remain');
+  assert.equal(page.elements['current-date'].dateTime, '2026-11-03');
+  page.elements['theme-toggle'].listeners.click();
+  assert.equal(page.root.dataset.theme, 'light');
+  page.navigateToAbout();
+  assert.equal(page.intervals.length, 1);
+  assert.equal(page.elements['theme-toggle'].attrs['aria-label'], '切换深色模式');
 });
